@@ -1,0 +1,14 @@
+{
+  "position": "below",
+  "align": "center",
+  "forceSdr": true,
+  "streamAudio": false,
+  "fallbackWidth": 1920,
+  "fallbackHeight": 1080,
+  "fallbackFps": 60,
+  "vddHardwareId": "Root\\MttVDD",
+  "vddSettingsPath": "C:\\VirtualDisplayDriver\\vdd_settings.xml",
+  "sunshineService": "SunshineService",
+  "sunshineDir": "",
+  "displayWaitSeconds": 15
+}
