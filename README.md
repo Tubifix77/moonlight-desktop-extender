@@ -108,6 +108,14 @@ USB tethering switches off whenever the cable is unplugged, so turn it back on a
 
 Tip: long-press the **Desktop** tile in Moonlight and hide it if you never want the mirror.
 
+### Power saving while connected
+
+**While the tablet is streaming, Windows won't turn your screens off.** Sunshine tells Windows the display is required for as long as it's capturing (`ES_DISPLAY_REQUIRED`, see Sunshine's `display_base.cpp`). Otherwise a display going dark would freeze the stream. Windows powers displays as a group, so this applies to your **main monitor too**, not just the tablet screen.
+
+- If you leave the tablet connected and walk away, both screens stay on.
+- To get normal power saving back, end the stream. Backing out of Moonlight or pressing the tablet's power button both work. The virtual display is removed and Windows' display timeout applies again.
+- If the PC goes to **sleep** while streaming, the connection drops. When the PC wakes, Sunshine sees the disconnect and the virtual display is removed.
+
 ## Configuration
 
 `config.json`, in the project folder:
