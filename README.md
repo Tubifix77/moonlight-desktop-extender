@@ -95,7 +95,22 @@ USB gives the lowest latency and also keeps the tablet charged.
 2. On the tablet, go to **Settings → Network → Tethering** and turn on **USB tethering**. Windows gets a new network adapter ("Remote NDIS based Internet Sharing Device").
 3. In Moonlight, the PC should appear by itself. If it doesn't, tap **+** and enter the PC's IP address on that adapter (usually `192.168.42.x`; find it with `ipconfig`).
 
-USB tethering switches off whenever the cable is unplugged, so turn it back on after replugging. Wi-Fi works too, with a bit more latency.
+USB tethering switches off whenever the cable is unplugged, so turn it back on after replugging. That includes the PC or a monitor-hub losing power. Wi-Fi works too, with a bit more latency.
+
+### Switching between USB and Wi-Fi
+
+Nothing changes on the PC: Sunshine listens on every network. On the tablet:
+
+| Tablet setting | Stream goes over | Restart Moonlight first? |
+|---|---|---|
+| Tethering off, Wi-Fi on | Wi-Fi | No |
+| Tethering on, Wi-Fi off | USB | Yes |
+| Both on | USB | Yes |
+
+- **Restart Moonlight** means closing it fully (swipe it away in recent apps). Moonlight only searches for the PC when it starts. Without a restart it keeps trying the address it last knew.
+- **Wi-Fi needs the PC's home-network address.** If Moonlight only knows the USB address, add the PC once more with **+** and its home-network IP (`ipconfig` on the PC). It's the same paired PC, so there's no PIN and no duplicate entry.
+- **A running stream stays on the link it started on.** Turning the *other* link on or off mid-stream doesn't affect it, so there's no switch and no reconnect. Turning off the link the stream is using ends the stream. The virtual display is then removed as usual, and you reconnect.
+- To check which link a stream uses, look at the network adapter's activity in Task Manager → Performance. The USB link is the "Remote NDIS" adapter.
 
 > **spacedesk users:** spacedesk's Windows service switches Android devices into its own USB mode (*Android Open Accessory*), which blocks USB tethering. Stop `spacedeskService` (or set it to Manual) and replug the tablet.
 
