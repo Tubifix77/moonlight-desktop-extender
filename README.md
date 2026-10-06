@@ -145,7 +145,10 @@ Tip: long-press the **Desktop** tile in Moonlight and hide it if you never want 
 | `sunshineDir` | *(auto)* | Sunshine install folder, if auto-detection fails |
 | `displayWaitSeconds` | `15` | How long to wait for the virtual display to appear |
 
-The picture's sharpness is set **in Moonlight** on the tablet (**Settings → Resolution**). The virtual display follows that setting.
+### Getting the picture right
+
+- **Resolution is set in Moonlight** (**Settings → Resolution**), and the virtual display follows it. Pick the tablet's **own** screen resolution, for example 1920×1200 on a 16:10 tablet. Moonlight often defaults to 720p, which is soft. A 16:9 setting such as 1080p on a 16:10 screen leaves **black bars** at the top and bottom. Moonlight may warn about "native resolution": Sunshine supports any resolution, and if the stream plays smoothly, the tablet's decoder handles it. If you see stutter or blocky artifacts, go back to 1080p.
+- **Scaling is set in Windows.** In **Settings → System → Display**, click the tablet screen and set **Scale**. 150% works well on a 10-inch 1920×1200 screen. Windows remembers it for the virtual display across sessions.
 
 ## Troubleshooting
 
@@ -157,6 +160,8 @@ All scripts log to `logs\extender.log`. The installer also writes `logs\install.
 | The tablet shows a copy of the main screen | You picked **Desktop**. Pick **Extended Screen**. |
 | PC doesn't see the tablet over USB | Check that USB tethering is on (it resets on replug) and that spacedesk isn't running (see above). |
 | Picture is soft | Moonlight is requesting a low resolution (often 720p). Raise it in Moonlight's settings. |
+| Black bars on top and bottom | Moonlight's resolution has a different shape from the tablet's screen. Pick the tablet's own resolution (see [Getting the picture right](#getting-the-picture-right)). |
+| Text on the tablet is tiny | Set the scale for the tablet screen in Windows display settings. |
 | Virtual display stays after a crash | Click the shortcut off and on again, or run `scripts\vdisplay.ps1 off` as administrator. |
 | Check the current state | `powershell -ExecutionPolicy Bypass -File scripts\vdisplay.ps1 status` |
 
