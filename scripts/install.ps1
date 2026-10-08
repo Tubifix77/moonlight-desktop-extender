@@ -193,7 +193,10 @@ try {
     $vdisplay = "$ps `"$PSScriptRoot\vdisplay.ps1`""
     $app = [ordered]@{
         'name'         = 'Extended Screen'
-        'cmd'          = "$ps `"$PSScriptRoot\session.ps1`""
+        # The watcher runs for the whole stream. Windows 11 hands console programs to Windows
+        # Terminal, which ignores -WindowStyle Hidden and leaves a taskbar button. A headless
+        # conhost has no window at all. (It doesn't pass on exit codes, which this one never needs.)
+        'cmd'          = "conhost.exe --headless $ps `"$PSScriptRoot\session.ps1`""
         'prep-cmd'     = @([ordered]@{ 'do' = "$vdisplay on"; 'undo' = "$vdisplay off"; 'elevated' = $true })
         'auto-detach'  = $false
         'wait-all'     = $true
