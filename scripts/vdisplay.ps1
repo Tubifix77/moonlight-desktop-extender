@@ -10,7 +10,7 @@
     off    - disables the VDD so the display disappears completely.
     status - prints what is going on.
 
-    Needs admin for on/off (pnputil). Sunshine runs it elevated as a prep-cmd.
+    Needs admin for on/off. Sunshine runs it elevated as a prep-cmd.
 #>
 param(
     [ValidateSet('on', 'off', 'status')]
@@ -124,11 +124,11 @@ function Enable-ExtendedScreen {
     if (Test-VddEnabled $dev) {
         if ($settingsChanged) {
             Write-Log 'Restarting VDD to load new modes'
-            Invoke-Pnputil 'disable-device' $dev.InstanceId
-            Invoke-Pnputil 'enable-device' $dev.InstanceId
+            Set-VddEnabled $dev.InstanceId $false
+            Set-VddEnabled $dev.InstanceId $true
         }
     } else {
-        Invoke-Pnputil 'enable-device' $dev.InstanceId
+        Set-VddEnabled $dev.InstanceId $true
         Write-Log 'VDD enabled'
     }
 
@@ -161,7 +161,7 @@ function Disable-ExtendedScreen {
     $dev = Get-VddDevice
     if (-not $dev) { Write-Log 'VDD not installed; nothing to do'; return }
     if (Test-VddEnabled $dev) {
-        Invoke-Pnputil 'disable-device' $dev.InstanceId
+        Set-VddEnabled $dev.InstanceId $false
         Write-Log 'VDD disabled'
     } else {
         Write-Log 'VDD already disabled'

@@ -74,6 +74,14 @@ function Test-VddEnabled($Device) {
     $Device.ConfigManagerErrorCode -ne 22
 }
 
+# Uses the PnpDevice cmdlets rather than pnputil: pnputil can lose track of the
+# root-enumerated VDD ("/enum-devices /instanceid" finds nothing and
+# "/enable-device" fails with 1167, device not connected) while these keep working.
+function Set-VddEnabled([string]$InstanceId, [bool]$Enabled) {
+    if ($Enabled) { Enable-PnpDevice -InstanceId $InstanceId -Confirm:$false }
+    else { Disable-PnpDevice -InstanceId $InstanceId -Confirm:$false }
+}
+
 function Invoke-Pnputil([string]$Verb, [string]$InstanceId) {
     # Windows PowerShell turns native stderr into terminating errors under 'Stop'.
     $ErrorActionPreference = 'Continue'

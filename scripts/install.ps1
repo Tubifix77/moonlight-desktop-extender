@@ -144,7 +144,7 @@ try {
     Write-Log "Virtual display device: $($dev.InstanceId)"
 
     # --- 3. Sunshine output_name + audio -------------------------------------
-    if (-not (Test-VddEnabled $dev)) { Invoke-Pnputil 'enable-device' $dev.InstanceId }
+    if (-not (Test-VddEnabled $dev)) { Set-VddEnabled $dev.InstanceId $true }
     $deadline = (Get-Date).AddSeconds(20)
     while (-not ($vdd = Get-VddAdapter) -and (Get-Date) -lt $deadline) { Start-Sleep -Milliseconds 250 }
     if (-not $vdd) { throw 'Virtual display did not show up' }
@@ -225,7 +225,7 @@ try {
     Write-Log 'Shortcuts created on the Desktop and in the Start menu'
 
     # --- 7. off --------------------------------------------------------------
-    Invoke-Pnputil 'disable-device' $dev.InstanceId
+    Set-VddEnabled $dev.InstanceId $false
     if ($wasRunning) { Start-Service $svc.Name; Write-Log 'Sunshine restarted (it was running before)' }
     Write-Log 'Install finished; virtual display disabled'
 } catch {

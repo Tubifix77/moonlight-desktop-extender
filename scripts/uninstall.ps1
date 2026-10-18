@@ -42,7 +42,7 @@ Step 'Stopping Sunshine' {
 
 Step 'Disabling the virtual display' {
     $dev = Get-VddDevice
-    if ($dev -and (Test-VddEnabled $dev)) { Invoke-Pnputil 'disable-device' $dev.InstanceId }
+    if ($dev -and (Test-VddEnabled $dev)) { Set-VddEnabled $dev.InstanceId $false }
 }
 
 Step 'Cleaning sunshine.conf' {
